@@ -1,0 +1,54 @@
+User Stories
+ 	As a user, I should be able to log in using valid credentials.
+ 	As a user, I should be able to sign up for and participate in a maximum of 4 of Bailey's classes at any given time.
+ 	As a user, I should not be able to sign up for a class if there are more than 20 Baristas enrolled already.
+ 	As a user, I should not be able to sign up for a class if the start date is in the past.
+ 	As a user, I should be able to sign up for class challenges.
+ 	As a user, I should be able to drop Bailey's classes.
+ 	As a user, I should be able to quit one of Bailey's challenges.
+ 	As a user, I should be able to add up to three specialty drinks (chosen from a premade list) to my skills matrix.
+ 	As a user, I should not be able to add a skill to my skills matrix if I have not completed a class which teaches that skill.
+ 	As a user, I should be dropped from Bailey's Barista Bar if Bailey has dropped me from 3 classes.
+ 	As a user, I should be the class rep if I have the oldest active account.
+
+ 	As Bailey, I should be able to create classes.
+ 	As Bailey, I should be able to assign class challenges.
+ 	As Bailey, I should be able to drop Baristas from my classes.
+ 	As Bailey, I should be able to endorse/unendorse my Baristas' skills.
+ 	As Bailey, I should be able to add/remove skills from the premade skills list.
+ 	As Bailey, I should be able to view detailed class and challenge information (e.g number of Baristas enrolled).
+ 	As Bailey, I should be able to view information about all Baristas.
+    S: Bailey, if I drop the class rep, I should bring everyone donuts to ease the pain I caused my dear Baristas by dropping the class rep. I can take no other actions until I do so.
+Required Technologies: Java, Spring, Hibernate
+Optional Technologies: HTML, CSS, JavaScript, Angular/React (either or), Javalin
+... ... ...
+login page
+    username
+    password
+    button
+user page
+    class display (including dropdown)
+    sign-up function for classes and challenges
+    indicator or error message - max 4 classes
+        message and error popup
+    classes disappear after enrollment = 20
+        number enrolled ("max 20") and error popup
+    classes disappear after enrollment start = past
+        ...disappear, grey color, error popup if past date
+    drop class / quit challenge function
+        type in class name to unenroll - click button - are you sure message
+    lockout for all signups if dropped from 3 classes
+        ...uhhh...taken to new page with basic stats if dropped from 3
+    if oldest account for class, should be assigned class rep
+        class rep icon if oldest signed up
+    matrix section
+        skills matrix display (max 3) - from premade list (dropdown) - only classes completed for that drink/skill
+            either menu only for classes completed or error message if not completed
+bailey page
+    1 create class feature - type text and 'create' button? - start date must have a start date
+        class name box - start day and month - num enrolled (#4) - challenge name box - description box - create button
+    3 modify skills list (the one baristas use for their matrix)
+        just a table that displays added skills (option to remove) and row to add new skill
+    5 view details about baristas (see #2)
+        table barista - name - classes list - selection of current dropped quit - matrix - endorse select box (#2)
+
