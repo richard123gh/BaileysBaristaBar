@@ -1,0 +1,44 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <property name = "hibernate.dialect">
+            org.hibernate.dialect.PostgreSQL10Dialect
+        </property>
+
+        <property name = "hibernate.connection.driver_class">
+            org.postgresql.Driver
+        </property>
+
+        <!-- Assume test is the database name -->
+
+        <property name = "hibernate.connection.url">
+            jdbc:postgresql://baileysbaristabar.c7wxnongyzb9.us-west-1.rds.amazonaws.com:5432/postgres
+        </property>
+
+        <property name = "hibernate.connection.username">
+            postgres
+        </property>
+
+        <property name = "hibernate.connection.password">
+            yF2IYkFy7ECUVjHhJdiC
+        </property>
+
+        <property name = "hibernate.show_sql">
+            true
+        </property>
+
+        <property name = "hibernate.hbm2ddl.auto">
+            update
+        </property>
+
+        <!-- List of XML mapping files -->
+<!--        <mapping resource = "Employee.hbm.xml"/>-->
+        <mapping class = "com.baileysbaristabar.hibernate.model.Barista"/>
+        <mapping class = "com.baileysbaristabar.hibernate.model.Bailey"/>
+        <mapping class = "com.baileysbaristabar.hibernate.model.EnrollmentInfo"/>
+
+    </session-factory>
+</hibernate-configuration>

@@ -4,7 +4,7 @@
     <title>Login to Bailey's Barista Bar</title>
 </head>
 <body>
-    <center><h1>Welcome to Bailey's Barista Bar</h1>
+    <h1 style="text-align:center">Welcome to Bailey's Barista Bar</h1>
     <h2>Please login to continue</h2>
     <br>
     <br>
@@ -14,10 +14,43 @@
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" />
     <br><br>
-    <input type="submit" value="Login" /></center>
+    <input type="submit" value="Login" />
 
 </body>
 <script>
+    let input = document.getElementById("username");
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            login();
+        }
+    });
+
+    let baseURL = "http://localhost:8080/barista";
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    async function login(){
+        let config = {
+            method: "GET",
+            headers:{"Content-Type":"application/json"},
+        }
+
+        let response = await fetch(`{baseURL}`, config);
+        if(response.status === 200){
+            let data = await response.json();
+            for(let i of response){
+                if(i.username === "BaileyPerson" && i.password === passwordInput.value){
+                    window.location.href = "bailey.html";
+                } else if(i.username === usernameInput.value && i.password === passwordInput.value){
+                    window.location.href = "barista.html";
+                } else {
+                    alert("Incorrect username or password");
+                }
+            }
+        }
+
+    }
+
+
 
 </script>
 </html>
