@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BaristaServiceInterface {
     List<Baristas> getAllBaristas();
-    List<Baristas> checkUserCredentials(String inputUser, String inputPass);
+    Baristas checkUserCredentials(String inputUser, String inputPass);
 }

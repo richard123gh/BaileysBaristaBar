@@ -93,7 +93,12 @@ public class Baristas {
     // this method is used when printing the values of the fields in the class when retrieving data from the database
     @Override
     public String toString() {
-        return "Baristas [barista_username=" + barista_username + ", barista_password=" + barista_password + ", account_creation_date=" + account_creation_date + ", num_dropped_from=" + num_dropped_from + ", enrolled_num=" + enrolled_num + "]";
+        return "Baristas [barista_username=" + barista_username +
+                ", barista_password=" + barista_password +
+                ", account_creation_date=" + account_creation_date +
+                ", num_dropped_from=" + num_dropped_from +
+                ", enrolled_num=" + enrolled_num +
+                "]";
     }
 
 

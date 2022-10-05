@@ -3,25 +3,111 @@
 <head>
     <title>Bailey's Barista Bar</title>
 </head>
-<body>
-    <h1>Bailey's Enrollment Control Center</h1>
+<body onload="getClasses()">
+    <h1 style="text-align:center">Bailey's Enrollment Control Center</h1>
     <br><br><br><br>
+    <h2>Create Class</h2>
+    <label for="className">Class Name:</label>
+    <input type="text" id="className" name="className" />
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate">
+    <label for="challenge">Challenge:</label>
+    <input type="text" id="challenge" name="challenge" />
+    <label for="skill">Skill:</label>
+    <input type="text" id="skill" name="skill" />
+    <button onclick="createClass()" id="btn">Create</button>
 
-    <h2>Class Table</h2>
-    <h3>Class Name</h3><h3>Start Date</h3><h3>Challenge</h3>
-    <!-- innput fields here --><!--createbutton-->
+
+
+
     <br><br><br><br>
-    <table>
+    <table id="enrollmentTable">
         <thead>
             <tr>
-                <th>Class Name</th><th>Start Date</th><th># Enrolled</th><th>Class Rep</th><th>Challenge</th><th>Accepted</th>
+                <th>id</th><th>Class Name</th><th>Rep</th><th>Barista</th><th>Endorsed</th><th>Challenge</th><th>Status</th><th>Update</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td></td>
+
             </tr>
         </tbody>
     </table>
 </body>
+<script>
+    
+    
+    async function createClass() { //look into using parameters here
+        
+        let config = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                class_name: document.getElementById("className").value,
+                start_date: document.getElementById("startDate").value,
+                num_enrolled: 0,
+                class_challenge: document.getElementById("challenge").value,
+                challenge_accepted_num: 0,
+                skill: document.getElementById("skill").value,
+                class_completed: false,
+            })
+        }
+
+        let response = await fetch("http://localhost:8080/classes", config);
+        let data = await response.json();
+        
+        if(data.status == 201) {
+            alert("Class created successfully!");
+        } else if(data.status == 400) {
+            alert("Class creation failed.");
+        } else {
+            alert("Something went wrong.");
+            // alert(response.detail);
+        }
+        
+    }
+
+    async function getClasses() {
+        let config = {
+            method: "GET",
+            headers: {"Content-Type": "application/json"}
+        }
+
+        let response = await fetch("http://localhost:8080/enrollment", config);
+        
+
+        if(response.status == 200) {
+            const data = await response.json();
+            for(let allClasses of data){
+                let newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td id="${allClasses.id}">${allClasses.id}</td>
+                    <td id="className${allClasses.id}">${allClasses.class_name}</td>
+                    <td id="rep${allClasses.id}">${allClasses.class_rep}</td>
+                    <td id="baristaName${allClasses.id}">${allClasses.barista_username}</td>
+                    <td id="endorsed${allClasses.id}">${allClasses.skill_endorsed}</td>
+                    <td id="accepted${allClasses.id}">${allClasses.challenge_accepted}</td>
+                    <td id="status${allClasses.id}">${allClasses.status}</td>
+                    <button onclick="updateClass(${allClasses.id})" id="btn">Update</button>
+                `;
+
+                let loadEnrollment = document.getElementById("enrollmentTable");
+                loadEnrollment.appendChild(newRow);
+            }
+
+        } else if(data.status == 400) {
+            alert("Enrollment Table failed to load.");
+        } else {
+            alert("Something went wrong.");
+            console.log(data.detail); 
+        }
+    }
+
+    // async function updateClass();
+        // need a skill endorse checkbox
+        // need a drop barista checkbox
+        // need a way to complete a class - enter class name?  changes status to complete for all enrolled
+
+
+</script>
 </html>

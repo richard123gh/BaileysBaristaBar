@@ -36,9 +36,9 @@
 
         <!-- List of XML mapping files -->
 <!--        <mapping resource = "Employee.hbm.xml"/>-->
-        <mapping class = "com.baileysbaristabar.hibernate.model.Barista"/>
-        <mapping class = "com.baileysbaristabar.hibernate.model.Bailey"/>
-        <mapping class = "com.baileysbaristabar.hibernate.model.EnrollmentInfo"/>
+        <mapping class = "com.baileysbaristabar.entities.Baristas"/>
+        <mapping class = "com.baileysbaristabar.entities.Classes"/>
+        <mapping class = "com.baileysbaristabar.entities.EnrollmentInfo"/>
 
     </session-factory>
 </hibernate-configuration>

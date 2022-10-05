@@ -14,42 +14,43 @@
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" />
     <br><br>
-    <input type="submit" value="Login" />
-
+    <button onclick="login()" id="btn">Login</button>
 </body>
 <script>
-    let input = document.getElementById("username");
-    input.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            login();
-        }
-    });
+    // let input = document.getElementById("username");
+    // input.addEventListener("keypress", function(event) {
+    //     if (event.key === "Enter") {
+    //         login();
+    //     }
+    // });
 
-    let baseURL = "http://localhost:8080/barista";
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
+    
+
     async function login(){
-        let config = {
-            method: "GET",
-            headers:{"Content-Type":"application/json"},
+        let loginInfo = {
+            barista_username: document.getElementById("username").value,
+            barista_password: document.getElementById("password").value,
         }
 
-        let response = await fetch(`{baseURL}`, config);
+        let config = {
+            method: "PATCH",
+            headers:{"Content-Type":"application/json"},
+            body: JSON.stringify(loginInfo)
+        }
+        let response = await fetch("http://localhost:8080/baristas/login", config);
         if(response.status === 200){
             let data = await response.json();
-            for(let i of response){
-                if(i.username === "BaileyPerson" && i.password === passwordInput.value){
-                    window.location.href = "bailey.html";
-                } else if(i.username === usernameInput.value && i.password === passwordInput.value){
-                    window.location.href = "barista.html";
-                } else {
-                    alert("Incorrect username or password");
-                }
-            }
-        }
 
+            if(data.barista_username === "BaileyPerson"){
+                window.location.href = "bailey.html";
+            } else {
+                window.location.href = "barista.html";
+            } 
+        } else {
+            let data = await response.json();
+            alert("Incorrect username or password"); // alert does not appear for some reason
+        } 
     }
-
 
 
 </script>

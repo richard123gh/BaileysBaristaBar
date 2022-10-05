@@ -1,13 +1,17 @@
 package com.baileysbaristabar.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.baileysbaristabar.utils.HibernateUtil;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "enrollmentInfo")
 public class EnrollmentInfo {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private int id;
     @Column(name = "class_name")
     private String class_name;
     @Column(name = "barista_username")
@@ -24,6 +28,16 @@ public class EnrollmentInfo {
     public EnrollmentInfo(){}
 
     public EnrollmentInfo(String class_name, String barista_username, String class_rep, boolean skill_endorsed, boolean challenge_accepted, String status){
+        this.class_name = class_name;
+        this.barista_username = barista_username;
+        this.class_rep = class_rep;
+        this.skill_endorsed = skill_endorsed;
+        this.challenge_accepted = challenge_accepted;
+        this.status = status;
+    }
+
+    public EnrollmentInfo(int id, String class_name, String barista_username, String class_rep, boolean skill_endorsed, boolean challenge_accepted, String status){
+        this.id = id;
         this.class_name = class_name;
         this.barista_username = barista_username;
         this.class_rep = class_rep;
@@ -81,6 +95,11 @@ public class EnrollmentInfo {
     }
 
     public String toString(){
-        return "Class Name: " + class_name + " Barista Username: " + barista_username + " Class Rep: " + class_rep + " Skill Endorsed: " + skill_endorsed + " Challenge Accepted: " + challenge_accepted + " Status: " + status;
+        return "Class Name: " + class_name +
+                " Barista Username: " + barista_username +
+                " Class Rep: " + class_rep +
+                " Skill Endorsed: " + skill_endorsed +
+                " Challenge Accepted: " + challenge_accepted +
+                " Status: " + status;
     }
 }

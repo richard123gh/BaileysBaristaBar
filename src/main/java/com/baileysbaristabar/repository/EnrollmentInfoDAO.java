@@ -2,120 +2,101 @@ package com.baileysbaristabar.repository;
 
 import com.baileysbaristabar.entities.Baristas;
 import com.baileysbaristabar.entities.Classes;
+import com.baileysbaristabar.entities.EnrollmentInfo;
 import com.baileysbaristabar.utils.HibernateUtil;
 
 import java.util.List;
 
 public class EnrollmentInfoDAO implements EnrollmentInfoDAOInterface{
 
-
-    @Override
-    public List<Classes> getAllClasses() {
+    public List<EnrollmentInfo> getAllEnrollment(){
         HibernateUtil.beginTransaction();
-        List<Classes> allClasses = HibernateUtil.getSession().createQuery("from enrollmentInfo", Classes.class).getResultList();
+        List<EnrollmentInfo> allEnrollment = HibernateUtil.getSession().createQuery("from EnrollmentInfo", EnrollmentInfo.class).getResultList();
         HibernateUtil.endTransaction();
-        return allClasses;
+        return allEnrollment;
     }
 
     @Override
-    public String getClassByName(String class_name) {
+    public List<EnrollmentInfo> getEnrollmentByClass(String class_name) {
         HibernateUtil.beginTransaction();
-        String returnClass = HibernateUtil.getSession().createQuery("from enrollmentInfo where class_name = :class_name", String.class).setParameter("class_name", class_name).getSingleResult();
+        List<EnrollmentInfo> enrollmentByClass = HibernateUtil.getSession().createQuery("from EnrollmentInfo where class_name = :class_name", EnrollmentInfo.class).setParameter("class_name", class_name).getResultList();
         HibernateUtil.endTransaction();
-        return returnClass;
+        return enrollmentByClass;
     }
 
     @Override
-    public List<Baristas> getBaristasByClass(String class_name) {
+    public List<EnrollmentInfo> getEnrollmentByBarista(String barista_username) {
         HibernateUtil.beginTransaction();
-        List<Baristas> returnBaristas = HibernateUtil.getSession().createQuery("select barista_username from enrollmentInfo where class_name = :class_name", Baristas.class).setParameter("class_name", class_name).getResultList();
+        List<EnrollmentInfo> enrollmentByBarista = HibernateUtil.getSession().createQuery("from EnrollmentInfo where barista_username = :barista_username", EnrollmentInfo.class).setParameter("barista_username", barista_username).getResultList();
         HibernateUtil.endTransaction();
-        return returnBaristas;
+        return enrollmentByBarista;
     }
 
     @Override
-    public String getClassRepByClass(String class_name) {
+    public EnrollmentInfo addNewEnrollment(EnrollmentInfo enrollment) {
         HibernateUtil.beginTransaction();
-        String returnClassRep = HibernateUtil.getSession().createQuery("select class_rep from enrollmentInfo where class_name = :class_name", String.class).setParameter("class_name", class_name).getSingleResult();
+        HibernateUtil.getSession().save(enrollment);
         HibernateUtil.endTransaction();
-        return returnClassRep;
+        return enrollment;
     }
 
     @Override
-    public List<Classes> getClassesByBarista(String barista_name) {
+    public EnrollmentInfo updateEnrollment(EnrollmentInfo enrollment) {
         HibernateUtil.beginTransaction();
-        List<Classes> returnClasses = HibernateUtil.getSession().createQuery("select class_name from enrollmentInfo where barista_username = :barista_username", Classes.class).setParameter("barista_username", barista_name).getResultList();
+        HibernateUtil.getSession().update(enrollment);
         HibernateUtil.endTransaction();
-        return returnClasses;
+        return enrollment;
     }
 
-    // is this method needed?  what about just endorsed ones?
-//    @Override
-//    public List<Classes> getSkillsByBarista(String barista_name) {
-//        return null;
-//    }
-
     @Override
-    public List<Classes> getChallengesByBarista(String barista_name) {
+    public EnrollmentInfo getClassRep(String class_name) {
         HibernateUtil.beginTransaction();
-        List<Classes> returnChallenges = HibernateUtil.getSession().createQuery("select challenge_name from enrollmentInfo where barista_username = :barista_username", Classes.class).setParameter("barista_username", barista_name).getResultList();
+        EnrollmentInfo classRep = HibernateUtil.getSession().createQuery("from EnrollmentInfo where class_name = :class_name and class_rep = :class_rep", EnrollmentInfo.class).setParameter("class_name", class_name).setParameter("class_rep", "Y").getSingleResult();
         HibernateUtil.endTransaction();
-        return returnChallenges;
+        return classRep;
     }
 
     @Override
-    public String getChallengesByClass(String class_name) {
+    public EnrollmentInfo updateClassRep(String class_name, String barista_username) {
         HibernateUtil.beginTransaction();
-        String returnChallenges = HibernateUtil.getSession().createQuery("select challenge_name from enrollmentInfo where class_name = :class_name", String.class).setParameter("class_name", class_name).getSingleResult();
+        EnrollmentInfo classRep = HibernateUtil.getSession().createQuery("from EnrollmentInfo where class_name = :class_name and class_rep = :class_rep", EnrollmentInfo.class).setParameter("class_name", class_name).setParameter("class_rep", "Y").getSingleResult();
+        classRep.setClassRep("N");
+        HibernateUtil.getSession().update(classRep);
+        EnrollmentInfo newClassRep = HibernateUtil.getSession().createQuery("from EnrollmentInfo where class_name = :class_name and barista_username = :barista_username", EnrollmentInfo.class).setParameter("class_name", class_name).setParameter("barista_username", barista_username).getSingleResult();
+        newClassRep.setClassRep("Y");
+        HibernateUtil.getSession().update(newClassRep);
         HibernateUtil.endTransaction();
-        return returnChallenges;
+        return newClassRep;
     }
 
+    //this might only be needed to update the number?  might just need the classname and enrollment number
     @Override
-    public String getSkillsByClass(String class_name) {
+    public EnrollmentInfo deleteEnrollmentByBarista(String class_name, String barista_username, String status) {
         HibernateUtil.beginTransaction();
-        String returnSkills = HibernateUtil.getSession().createQuery("select skills from enrollmentInfo where class_name = :class_name", String.class).setParameter("class_name", class_name).getSingleResult();
+        EnrollmentInfo enrollment = HibernateUtil.getSession().createQuery("from EnrollmentInfo where class_name = :class_name and barista_username = :barista_username", EnrollmentInfo.class).setParameter("class_name", class_name).setParameter("barista_username", barista_username).getSingleResult();
+        enrollment.setStatus(status);
+        HibernateUtil.getSession().update(enrollment);
         HibernateUtil.endTransaction();
-        return returnSkills;
+        return enrollment;
     }
 
     @Override
-    public List<Classes> getSkillsEndorsedByBarista(String barista_name) {
-        return null;
+    public EnrollmentInfo getStatusByBarista(String class_name) {
+        HibernateUtil.beginTransaction();
+        EnrollmentInfo enrollment = HibernateUtil.getSession().createQuery("from EnrollmentInfo where class_name = :class_name", EnrollmentInfo.class).setParameter("class_name", class_name).getSingleResult();
+        HibernateUtil.endTransaction();
+        return enrollment;
     }
 
     @Override
-    public List<Classes> getSkillsEndorsedByClass(String class_name) {
-        return null;
+    public EnrollmentInfo updateStatusByBarista(String class_name, String barista_username, String status) {
+        HibernateUtil.beginTransaction();
+        EnrollmentInfo enrollment = HibernateUtil.getSession().createQuery("from EnrollmentInfo where class_name = :class_name and barista_username = :barista_username", EnrollmentInfo.class).setParameter("class_name", class_name).setParameter("barista_username", barista_username).getSingleResult();
+        enrollment.setStatus(status);
+        HibernateUtil.getSession().update(enrollment);
+        HibernateUtil.endTransaction();
+        return enrollment;
     }
 
-    @Override
-    public List<Classes> getChallengesAcceptedByBarista(String barista_name) {
-        return null;
-    }
 
-    @Override
-    public List<Classes> getChallengesAcceptedByClass(String class_name) {
-        return null;
-    }
-
-    @Override
-    public List<Classes> getClassesCompletedByBarista(String barista_name) {
-        return null;
-    }
-
-    @Override
-    public List<Classes> getBaristasDroppedByClass(String class_name) {
-        return null;
-    }
-
-    @Override
-    public int getNumDroppedByBarista(String barista_name) {
-        return 0;
-    }
-
-    @Override
-    public int getNumDroppedByClass(String class_name) {
-        return 0;
-    }
 }

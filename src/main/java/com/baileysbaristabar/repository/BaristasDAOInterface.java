@@ -5,14 +5,14 @@ import java.util.List;
 import com.baileysbaristabar.entities.Baristas;
 import com.baileysbaristabar.entities.Classes;
 
-public interface BaristasDAOInterface { //need to update these to refer to the field in the baristas table
+public interface BaristasDAOInterface {
 
     List<Baristas> getAllBaristas();
 
-    List<Baristas> checkUserCredentials(String inputUser, String inputPass);
+    Baristas checkUserCredentials(String inputUser, String inputPass);
 
     Baristas getBaristaByUsername(String inputUser);
 
-
+//    Baristas updateEnrolledNum(String inputUser);
 
 }

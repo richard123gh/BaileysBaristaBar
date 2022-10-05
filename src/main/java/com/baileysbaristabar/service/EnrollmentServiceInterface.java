@@ -1,13 +1,10 @@
-package com.baileysbaristabar.repository;
+package com.baileysbaristabar.service;
 
-import com.baileysbaristabar.entities.Baristas;
-import com.baileysbaristabar.entities.Classes;
 import com.baileysbaristabar.entities.EnrollmentInfo;
 
 import java.util.List;
 
-public interface EnrollmentInfoDAOInterface {
-
+public interface EnrollmentServiceInterface {
     List<EnrollmentInfo> getAllEnrollment();
 
     List<EnrollmentInfo> getEnrollmentByClass(String class_name);
@@ -20,14 +17,13 @@ public interface EnrollmentInfoDAOInterface {
 
     EnrollmentInfo getClassRep(String class_name);
 
-    EnrollmentInfo updateClassRep(String class_name, String barista_username);
+    EnrollmentInfo updateClassRep(String class_name, String class_rep);
 
-    EnrollmentInfo deleteEnrollmentByBarista(String class_name, String barista_username, String status);
+//    EnrollmentInfo deleteEnrollmentByBarista(String class_name, String barista_username, String status);
 
-    EnrollmentInfo getStatusByBarista(String class_name);
+    EnrollmentInfo getStatusByBarista(String class_name, String barista_username);
 
     EnrollmentInfo updateStatusByBarista(String class_name, String barista_username, String status);
-
 
 
 

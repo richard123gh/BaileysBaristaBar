@@ -8,7 +8,6 @@ import java.util.Date;
 @Table(name = "classes")
 public class Classes {
     @Id
-    @GeneratedValue
     @Column(name = "class_name")
     private String class_name;
     @Column(name = "start_date")
@@ -26,13 +25,18 @@ public class Classes {
 
     public Classes(){}
 
-    public Classes(String class_name, Date start_date, int num_enrolled, String class_challenge, int challenge_accepted_num, String skill, boolean class_completed){
+    public Classes(String class_name, long start_date, int num_enrolled, String class_challenge, int challenge_accepted_num, String skill, boolean class_completed){
         this.class_name = class_name;
-        this.start_date = start_date;
+        this.start_date = new Date(start_date); // https://www.w3schools.com/js/js_dates.asp for JS entry of dates
         this.num_enrolled = num_enrolled;
         this.class_challenge = class_challenge;
         this.challenge_accepted_num = challenge_accepted_num;
         this.skill = skill;
+        this.class_completed = class_completed;
+    }
+
+    public Classes(String class_name, boolean class_completed){
+        this.class_name = class_name;
         this.class_completed = class_completed;
     }
 
@@ -93,6 +97,12 @@ public class Classes {
     }
 
     public String toString(){
-        return "Class Name: " + class_name + " Start Date: " + start_date + " Number Enrolled: " + num_enrolled + " Class Challenge: " + class_challenge + " Challenge Accepted Number: " + challenge_accepted_num + " Skill: " + skill + " Class Completed: " + class_completed;
+        return "Class Name: " + class_name +
+                " Start Date: " + start_date +
+                " Number Enrolled: " + num_enrolled +
+                " Class Challenge: " + class_challenge +
+                " Challenge Accepted Number: " + challenge_accepted_num +
+                " Skill: " + skill +
+                " Class Completed: " + class_completed;
     }
 }

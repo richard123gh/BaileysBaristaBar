@@ -6,9 +6,7 @@ import com.baileysbaristabar.utils.HibernateUtil;
 import com.baileysbaristabar.entities.Baristas;
 import com.baileysbaristabar.entities.Classes;
 
-// This class is a DAO (Data Access Object) that will be used to access the Baristas table in the database
-// It implements the BaristasDAOInterface
-// It will be used to access the Baristas table in the database
+
 public class BaristasDAO implements BaristasDAOInterface {
 
 
@@ -21,9 +19,9 @@ public class BaristasDAO implements BaristasDAOInterface {
     }
 
     @Override
-    public List<Baristas> checkUserCredentials(String inputUser, String inputPass) {
+    public Baristas checkUserCredentials(String inputUser, String inputPass) {
         HibernateUtil.beginTransaction();
-        List<Baristas> returnBaristas = HibernateUtil.getSession().createQuery("from Baristas where barista_username = :barista_username and barista_password = :barista_password", Baristas.class).setParameter("barista_username", inputUser).setParameter("barista_password", inputPass).getResultList();
+        Baristas returnBaristas = HibernateUtil.getSession().createQuery("from Baristas where barista_username = :barista_username and barista_password = :barista_password", Baristas.class).setParameter("barista_username", inputUser).setParameter("barista_password", inputPass).uniqueResult();
         HibernateUtil.endTransaction();
         return returnBaristas;
     }
@@ -35,4 +33,13 @@ public class BaristasDAO implements BaristasDAOInterface {
         HibernateUtil.endTransaction();
         return returnBarista;
     }
+
+    //figure this one out later - first, get enrollment status working
+//    @Override
+//    public Baristas updateEnrolledNum(String inputUser) {
+//        HibernateUtil.beginTransaction();
+//        Baristas returnBarista = HibernateUtil.getSession().createQuery("from enrollmentInfo where status = 'enrolled'", Baristas.class).setParameter("barista_username", inputUser).getSingleResult();
+//        HibernateUtil.endTransaction();
+//        return returnBarista;
+//    }
 }

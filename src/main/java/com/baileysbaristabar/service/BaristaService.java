@@ -1,12 +1,17 @@
 package com.baileysbaristabar.service;
 
 import com.baileysbaristabar.entities.Baristas;
+import com.baileysbaristabar.repository.BaristasDAO;
 import com.baileysbaristabar.repository.BaristasDAOInterface;
 
 import java.util.List;
 
 public class BaristaService implements BaristaServiceInterface {
-    private BaristaService baristaDao;
+    private BaristasDAO baristaDao;
+
+    public BaristaService(BaristasDAO baristaDao){
+        this.baristaDao = baristaDao;
+    }
 
     @Override
     public List<Baristas> getAllBaristas() {
@@ -14,7 +19,7 @@ public class BaristaService implements BaristaServiceInterface {
     }
 
     @Override
-    public List<Baristas> checkUserCredentials(String inputUser, String inputPass) {
+    public Baristas checkUserCredentials(String inputUser, String inputPass) {
         return baristaDao.checkUserCredentials(inputUser, inputPass);
 
     }

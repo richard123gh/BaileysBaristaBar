@@ -1,16 +1,16 @@
-package com.baileysbaristabar.repository;
-
-import java.util.List;
+package com.baileysbaristabar.service;
 
 import com.baileysbaristabar.entities.Classes;
 
-public interface ClassesDAOInterface {
+import java.util.List;
+
+public interface ClassesServiceInterface {
 
     List<Classes> getAllClasses();
 
     Classes getClassName(String class_name);
 
-    Classes addNewClass(Classes class_name);
+    Classes addNewClass(Classes c);
 
     Classes getEnrolledNumber(String class_name);
 
